@@ -1,0 +1,373 @@
+/* ========================================
+   Gacha Game - 扭蛋機樣式
+   ======================================== */
+
+/* 扭蛋機容器 */
+.gacha-container {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) 0;
+}
+
+.gacha-machine {
+  position: relative;
+  width: 200px;
+}
+
+/* 機器頂部 - 透明球體 */
+.machine-top {
+  position: relative;
+}
+
+.machine-globe {
+  width: 180px;
+  height: 180px;
+  background: var(--gray-100);
+  border: 6px solid var(--danger);
+  border-radius: 50% 50% 20% 20%;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 -20px 40px rgba(0,0,0,0.1);
+}
+
+/* 膠囊球展示區 */
+.capsules-display {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+}
+
+.mini-capsule {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.mini-capsule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: inherit;
+  filter: brightness(1.1);
+}
+
+.mini-capsule::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: inherit;
+  filter: brightness(0.85);
+}
+
+/* 機器本體 */
+.machine-body {
+  width: 160px;
+  height: 100px;
+  background: var(--danger);
+  margin: -10px auto 0;
+  border-radius: 0 0 20px 20px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+
+/* 轉鈕 */
+.machine-knob {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: var(--gray-200);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.machine-knob:hover {
+  transform: scale(1.05);
+}
+
+.machine-knob:active {
+  transform: scale(0.95);
+}
+
+.machine-knob.turning {
+  animation: turnKnob 0.5s ease-in-out;
+}
+
+@keyframes turnKnob {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.knob-inner {
+  width: 30px;
+  height: 30px;
+  background: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+/* 出口 */
+.machine-outlet {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 40px;
+  background: var(--danger-dark);
+  border-radius: 0 0 15px 15px;
+}
+
+.outlet-hole {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 25px;
+  background: var(--gray-800);
+  border-radius: 0 0 25px 25px;
+}
+
+/* 掉落膠囊動畫 */
+.falling-capsule {
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.falling-capsule.dropping {
+  animation: dropCapsule 0.8s ease-in forwards;
+}
+
+@keyframes dropCapsule {
+  0% {
+    bottom: 0;
+    opacity: 1;
+  }
+  60% {
+    bottom: -100px;
+    opacity: 1;
+  }
+  100% {
+    bottom: -120px;
+    opacity: 0;
+  }
+}
+
+/* 膠囊球 */
+.capsule {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.capsule.large {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--space-md);
+}
+
+.capsule-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--primary);
+  border-radius: 50% 50% 0 0;
+}
+
+.capsule-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--gray-100);
+  border-radius: 0 0 50% 50%;
+}
+
+/* 膠囊顏色 */
+.capsule[data-color="red"] .capsule-top { background: #ef4444; }
+.capsule[data-color="blue"] .capsule-top { background: #3b82f6; }
+.capsule[data-color="green"] .capsule-top { background: #22c55e; }
+.capsule[data-color="yellow"] .capsule-top { background: #f59e0b; }
+.capsule[data-color="purple"] .capsule-top { background: #8b5cf6; }
+.capsule[data-color="pink"] .capsule-top { background: #ec4899; }
+.capsule[data-color="cyan"] .capsule-top { background: #06b6d4; }
+.capsule[data-color="orange"] .capsule-top { background: #f97316; }
+
+/* 庫存區 */
+.inventory-section {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-md);
+}
+
+.inventory-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+}
+
+.inventory-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.inventory-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.inventory-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inventory-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* 顏色設定 */
+.color-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.color-setting-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 80px 40px;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-sm);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+}
+
+.color-setting-row input[type="color"] {
+  width: 50px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.color-setting-row input[type="text"],
+.color-setting-row input[type="number"] {
+  padding: 8px 12px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.color-setting-row input[type="number"] {
+  width: 70px;
+}
+
+.remove-color-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--danger);
+  color: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-color-btn:hover {
+  background: var(--danger-dark);
+}
+
+/* 結果顯示 */
+.result-prize {
+  margin-top: var(--space-sm);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+/* 操作按鈕 */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-lg) 0;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  .gacha-machine {
+    transform: scale(0.85);
+  }
+
+  .color-setting-row {
+    grid-template-columns: 50px 1fr 60px 36px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+}

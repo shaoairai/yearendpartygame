@@ -1,0 +1,327 @@
+/* ========================================
+   Picker Game - 抽籤筒樣式
+   加入抽出籤條打橫顯示名字效果
+   ======================================== */
+
+/* 籤筒容器 */
+.picker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) 0;
+  padding-top: 120px;
+  min-height: 420px;
+  position: relative;
+}
+
+/* 籤筒本體 */
+.picker-jar {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s;
+  z-index: 10; /* 讓籤條可以從後面升到前面 */
+}
+
+.picker-jar:hover {
+  transform: scale(1.02);
+}
+
+.picker-jar.shaking {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-10deg); }
+  40% { transform: rotate(10deg); }
+  60% { transform: rotate(-6deg); }
+  80% { transform: rotate(6deg); }
+}
+
+/* 筒身 */
+.jar-body {
+  width: 140px;
+  height: 180px;
+  background: var(--warning);
+  border-radius: 0 0 30px 30px;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* 筒口邊緣 */
+.jar-rim {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  right: -10px;
+  height: 30px;
+  background: var(--warning-dark);
+  border-radius: 10px 10px 0 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 筒底座 */
+.jar-base {
+  width: 160px;
+  height: 20px;
+  background: var(--warning-dark);
+  border-radius: 0 0 10px 10px;
+  margin-top: -5px;
+  box-shadow: var(--shadow-md);
+}
+
+/* 籤條容器 */
+.sticks-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+/* 籤條 */
+.stick {
+  width: 8px;
+  height: 100px;
+  background: #d4a574;
+  border-radius: 4px 4px 2px 2px;
+  position: absolute;
+  transform-origin: bottom center;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.stick::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: var(--danger);
+  border-radius: 4px 4px 0 0;
+}
+
+/* 不同角度的籤條 */
+.stick:nth-child(1) { transform: rotate(-15deg) translateY(-20px); }
+.stick:nth-child(2) { transform: rotate(-8deg) translateY(-25px); }
+.stick:nth-child(3) { transform: rotate(0deg) translateY(-30px); }
+.stick:nth-child(4) { transform: rotate(8deg) translateY(-25px); }
+.stick:nth-child(5) { transform: rotate(15deg) translateY(-20px); }
+.stick:nth-child(6) { transform: rotate(-12deg) translateY(-15px); left: -5px; }
+.stick:nth-child(7) { transform: rotate(12deg) translateY(-15px); right: -5px; }
+
+/* ===== 抽出的籤條 ===== */
+.picked-stick-container {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5; /* 初始在筒後面 */
+}
+
+.picked-stick-container.show {
+  animation: stickPopUp 1.5s ease-out forwards;
+}
+
+/* 籤條動畫：從筒後垂直升起（-90deg），再轉成水平（0deg） */
+@keyframes stickPopUp {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(120px) rotate(-90deg);
+    z-index: 5;
+  }
+  40% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-20px) rotate(-90deg);
+    z-index: 5;
+  }
+  50% {
+    z-index: 25;
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px) rotate(0deg);
+    z-index: 25;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(20px) rotate(0deg);
+    z-index: 25;
+  }
+}
+
+/* 抽出的籤條本體 - 橫向扁平狀（最終水平顯示） */
+.picked-stick {
+  width: 200px;
+  height: 36px;
+  background: linear-gradient(to bottom, #e8c9a0, #d4a574, #c49660);
+  border-radius: 4px;
+  position: relative;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 籤條左側紅色標記（水平時在左邊） */
+.picked-stick::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to bottom, #ef5350, #e53935, #c62828);
+  border-radius: 4px 0 0 4px;
+}
+
+/* 籤條木紋效果 */
+.picked-stick::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(0,0,0,0.03) 20px,
+    rgba(0,0,0,0.03) 21px
+  );
+  border-radius: 0 4px 4px 0;
+  pointer-events: none;
+}
+
+/* 籤條上的名字 - 不做任何旋轉，跟著外層容器一起轉 */
+.picked-stick-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  white-space: nowrap;
+  z-index: 1;
+  letter-spacing: 2px;
+}
+
+/* 提示文字 */
+.shake-hint {
+  margin-top: var(--space-lg);
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  transition: opacity 0.3s;
+}
+
+.shake-hint.hidden {
+  opacity: 0;
+}
+
+/* 操作按鈕 */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-lg) 0;
+}
+
+/* 已抽出列表 */
+.drawn-list {
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.drawn-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px 12px;
+  background: var(--gray-200);
+  border-radius: var(--radius-sm);
+  margin: 4px;
+  font-size: 0.9rem;
+}
+
+.drawn-item-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.empty-text {
+  text-align: center;
+  color: var(--text-tertiary);
+}
+
+/* 筒空狀態 */
+.jar-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+
+  .jar-body {
+    width: 120px;
+    height: 160px;
+  }
+
+  .jar-base {
+    width: 140px;
+  }
+
+  .stick {
+    height: 80px;
+  }
+
+  .picked-stick {
+    width: 160px;
+    height: 32px;
+  }
+
+  .picked-stick-name {
+    font-size: 1rem;
+  }
+
+  .picker-container {
+    padding-top: 100px;
+    min-height: 380px;
+  }
+}

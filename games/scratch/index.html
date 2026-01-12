@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>刮刮樂 - 尾牙抽獎遊戲</title>
+  <link rel="stylesheet" href="../../assets/css/global.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="game-header">
+    <a href="../../index.html" class="back-btn">返回主頁</a>
+    <h1>刮刮樂</h1>
+    <div></div>
+  </header>
+
+  <div class="container">
+    <!-- 刮刮樂卡片區域 -->
+    <div class="scratch-container">
+      <div class="scratch-card" id="scratchCard">
+        <div class="card-prize" id="cardPrize">
+          <div class="prize-icon">?</div>
+          <div class="prize-text">等待揭曉</div>
+        </div>
+        <canvas id="scratchCanvas"></canvas>
+        <div class="scratch-hint" id="scratchHint">用滑鼠或手指刮開遮罩</div>
+      </div>
+      <div class="scratch-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="progress-text" id="progressText">已刮 0%</span>
+      </div>
+    </div>
+
+    <!-- 結果顯示 -->
+    <div class="result-display hidden" id="resultDisplay">
+      <div class="result-label">本次結果</div>
+      <div class="result-text" id="resultText"></div>
+    </div>
+
+    <!-- 統計 -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value" id="cardCount">0</div>
+        <div class="stat-label">本場張數</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="scratchedCount">0</div>
+        <div class="stat-label">已刮張數</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="poolRemain">0</div>
+        <div class="stat-label">獎池剩餘</div>
+      </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-lg" id="nextCardBtn" disabled>下一張</button>
+      <button class="btn btn-secondary" id="newGameBtn">新一場</button>
+    </div>
+
+    <!-- 模式切換 -->
+    <div class="card mt-lg">
+      <div class="section-header">
+        <h3 class="section-title">遊戲設定</h3>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">每場張數（0 = 無限制）</label>
+        <input type="number" id="maxCards" class="form-input" value="10" min="0">
+      </div>
+
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="pool">獎池模式</button>
+        <button class="mode-tab" data-mode="weight">機率模式</button>
+      </div>
+
+      <!-- 獎池模式設定 -->
+      <div class="mode-content active" id="poolMode">
+        <p class="mode-desc">獎池模式：每個獎項刮到後會從池中移除</p>
+        <div class="pool-settings" id="poolSettings">
+          <!-- 動態產生 -->
+        </div>
+        <button class="btn btn-sm btn-success mt-md" id="addPoolItemBtn">新增獎項</button>
+      </div>
+
+      <!-- 機率模式設定 -->
+      <div class="mode-content" id="weightMode">
+        <p class="mode-desc">機率模式：根據權重隨機抽取，可重複中獎</p>
+        <div class="weight-settings" id="weightSettings">
+          <!-- 動態產生 -->
+        </div>
+        <button class="btn btn-sm btn-success mt-md" id="addWeightItemBtn">新增獎項</button>
+      </div>
+
+      <button class="btn btn-primary mt-md" id="applySettingsBtn">套用設定</button>
+    </div>
+
+    <!-- 本場紀錄 -->
+    <div class="card mt-lg">
+      <div class="section-header">
+        <h3 class="section-title">本場紀錄</h3>
+        <button class="btn btn-sm btn-secondary" id="clearSessionBtn">清除紀錄</button>
+      </div>
+      <div class="session-results" id="sessionResults">
+        <p class="empty-text">尚無紀錄</p>
+      </div>
+    </div>
+
+    <!-- 操作紀錄 -->
+    <div class="logs-section">
+      <div class="logs-header">
+        <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
+        <span class="badge" id="logsCount">0 筆</span>
+      </div>
+      <div class="collapse-content" id="logsContent">
+        <div class="logs-list" id="logsList"></div>
+      </div>
+    </div>
+
+    <!-- 資料管理 -->
+    <div class="data-actions">
+      <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
+      <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
+      <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+    </div>
+  </div>
+
+  <!-- 匯入 Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>匯入 JSON</h3>
+        <button class="modal-close" id="closeImportModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">選擇檔案</label>
+          <input type="file" accept=".json" id="importFile" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">或貼上 JSON</label>
+          <textarea class="form-textarea" id="importText" placeholder='{"version": "LUCKY_SCRATCH_V1", ...}'></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelImport">取消</button>
+        <button class="btn btn-primary" id="confirmImport">確認匯入</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

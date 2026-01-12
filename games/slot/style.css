@@ -1,0 +1,512 @@
+/* ========================================
+   Slot Game - 拉霸機樣式
+   ======================================== */
+
+/* 拉霸機容器 */
+.slot-container {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) 0;
+}
+
+.slot-machine {
+  position: relative;
+  width: 320px;
+}
+
+/* 機器頂部 */
+.slot-top {
+  background: var(--primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  text-align: center;
+}
+
+.slot-title {
+  color: var(--white);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+/* 顯示區域 */
+.slot-display {
+  background: var(--gray-800);
+  padding: var(--space-lg);
+  position: relative;
+}
+
+.reel-container {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+/* 單個轉輪 */
+.reel {
+  width: 80px;
+  height: 90px;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.reel-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: transform 0.1s linear;
+}
+
+/* 符號 */
+.reel-symbol {
+  width: 80px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+/* 純 CSS 符號 */
+.symbol-star,
+.symbol-circle,
+.symbol-square,
+.symbol-triangle,
+.symbol-diamond,
+.symbol-heart {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 星星 */
+.symbol-star::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 18px solid var(--warning);
+  position: relative;
+}
+.symbol-star::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-top: 18px solid var(--warning);
+  position: absolute;
+  top: 55%;
+}
+
+/* 圓形 */
+.symbol-circle::before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+
+/* 方形 */
+.symbol-square::before {
+  content: '';
+  width: 36px;
+  height: 36px;
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+/* 三角形 */
+.symbol-triangle::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 40px solid var(--success);
+}
+
+/* 菱形 */
+.symbol-diamond::before {
+  content: '';
+  width: 30px;
+  height: 30px;
+  background: var(--info);
+  transform: rotate(45deg);
+}
+
+/* 愛心 */
+.symbol-heart::before {
+  content: '';
+  width: 40px;
+  height: 36px;
+  background: var(--danger);
+  position: relative;
+  transform: rotate(-45deg);
+  border-radius: 50% 50% 0 0;
+}
+.symbol-heart::after {
+  content: '';
+  width: 40px;
+  height: 36px;
+  background: var(--danger);
+  position: absolute;
+  border-radius: 50% 50% 0 0;
+  transform: rotate(90deg);
+  left: 12px;
+  top: -12px;
+}
+
+/* 7 */
+.symbol-seven {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--danger);
+  text-shadow: 2px 2px 0 var(--gray-300);
+}
+
+/* BAR */
+.symbol-bar {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--gray-800);
+  background: linear-gradient(var(--gray-800), var(--gray-800)) no-repeat center;
+  background-size: 50px 8px;
+  padding: 12px 0;
+}
+
+/* 中獎線 */
+.win-line {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  background: var(--warning);
+  transform: translateY(-50%);
+  opacity: 0.6;
+  border-radius: 2px;
+}
+
+/* 機器底部 */
+.slot-bottom {
+  background: var(--primary);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 拉桿 */
+.lever {
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 拉桿底座（固定不動） */
+.lever::before {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  width: 20px;
+  height: 15px;
+  background: var(--gray-400);
+  border-radius: 4px;
+}
+
+/* 拉桿把手（會上下移動的部分） */
+.lever-handle {
+  width: 12px;
+  height: 50px;
+  background: var(--gray-300);
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+  transform-origin: bottom center;
+}
+
+/* 拉桿球頭 */
+.lever-ball {
+  width: 30px;
+  height: 30px;
+  background: var(--danger);
+  border-radius: 50%;
+  margin-top: -5px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.lever:hover .lever-ball {
+  transform: scale(1.1);
+}
+
+/* 拉下狀態 - 把手和球一起往下 */
+.lever.pulled .lever-handle {
+  transform: translateY(25px);
+}
+
+.lever.pulled .lever-ball {
+  transform: translateY(25px);
+}
+
+/* 中獎動畫 */
+.slot-machine.winning .slot-display {
+  animation: flashWin 0.5s ease 3;
+}
+
+@keyframes flashWin {
+  0%, 100% { background: var(--gray-800); }
+  50% { background: var(--success); }
+}
+
+/* 沒中獎動畫 */
+.slot-machine.losing .slot-display {
+  animation: flashLose 0.3s ease 2;
+}
+
+@keyframes flashLose {
+  0%, 100% { background: var(--gray-800); }
+  50% { background: var(--danger); opacity: 0.7; }
+}
+
+/* 轉動動畫 */
+@keyframes spinReel {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+.reel-strip.spinning {
+  animation: spinReel 0.1s linear infinite;
+}
+
+/* 結果獎項 */
+.result-prize {
+  margin-top: var(--space-sm);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+/* 操作按鈕 */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-lg) 0;
+}
+
+/* 模式切換 */
+.mode-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.mode-tab {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid var(--border-color);
+  background: var(--white);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.mode-tab:hover {
+  border-color: var(--primary);
+}
+
+.mode-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.mode-content {
+  display: none;
+}
+
+.mode-content.active {
+  display: block;
+}
+
+.mode-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-md);
+}
+
+/* 獎池/權重設定 */
+.pool-settings,
+.weight-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.setting-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 70px 36px;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-sm);
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+}
+
+.setting-row select,
+.setting-row input {
+  padding: 8px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.setting-row input[type="number"] {
+  width: 60px;
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--danger);
+  color: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.remove-btn:hover {
+  background: var(--danger-dark);
+}
+
+/* 符號選擇器 */
+.symbol-preview {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* 中獎組合 */
+.win-combinations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.win-combo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+}
+
+.combo-symbols {
+  display: flex;
+  gap: 4px;
+}
+
+.combo-symbol {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.combo-prize {
+  font-weight: 500;
+  color: var(--success);
+}
+
+/* 沒中獎組合 */
+.miss-combo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--gray-100);
+  border-radius: var(--radius-sm);
+  border: 2px dashed var(--gray-300);
+}
+
+.miss-combo .combo-prize {
+  color: var(--text-secondary);
+}
+
+/* 沒中獎權重設定 */
+.miss-weight-setting {
+  padding: var(--space-md);
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.miss-weight-setting .form-label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  .slot-machine {
+    width: 280px;
+  }
+
+  .reel {
+    width: 70px;
+    height: 80px;
+  }
+
+  .reel-symbol {
+    width: 70px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .setting-row {
+    grid-template-columns: 50px 1fr 60px 32px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+
+  .miss-weight-setting {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .miss-weight-setting .form-label {
+    margin-bottom: var(--space-sm);
+  }
+}

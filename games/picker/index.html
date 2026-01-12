@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抽籤筒 - 尾牙抽獎遊戲</title>
+  <link rel="stylesheet" href="../../assets/css/global.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="game-header">
+    <a href="../../index.html" class="back-btn">返回主頁</a>
+    <h1>抽籤筒</h1>
+    <div></div>
+  </header>
+
+  <div class="container">
+    <!-- 籤筒區域 -->
+    <div class="picker-container">
+      <!-- 抽出的籤條（打橫顯示名字） -->
+      <div class="picked-stick-container" id="pickedStickContainer">
+        <div class="picked-stick">
+          <span class="picked-stick-name" id="pickedStickName"></span>
+        </div>
+      </div>
+
+      <div class="picker-jar" id="pickerJar">
+        <div class="jar-body">
+          <div class="jar-rim"></div>
+          <div class="sticks-container" id="sticksContainer">
+            <!-- 動態產生籤條 -->
+          </div>
+        </div>
+        <div class="jar-base"></div>
+      </div>
+      <div class="shake-hint" id="shakeHint">點擊抽籤或搖一搖</div>
+    </div>
+
+    <!-- 結果顯示 -->
+    <div class="result-display" id="resultDisplay">
+      <div class="result-label">抽籤結果</div>
+      <div class="result-text" id="resultText">等待抽籤...</div>
+    </div>
+
+    <!-- 統計 -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-label">總人數</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="remainCount">0</div>
+        <div class="stat-label">剩餘</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="drawnCount">0</div>
+        <div class="stat-label">已抽</div>
+      </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-lg" id="pickBtn">抽一支籤</button>
+      <button class="btn btn-warning" id="undoBtn" disabled>復原上一次</button>
+    </div>
+
+    <!-- 名單編輯 -->
+    <div class="card mt-lg">
+      <div class="section-header">
+        <h3 class="section-title">名單編輯（每行一人）</h3>
+        <button class="btn btn-sm btn-secondary" id="applyListBtn">套用名單</button>
+      </div>
+      <textarea class="form-textarea" id="listInput" placeholder="請輸入名單，每行一人..."></textarea>
+    </div>
+
+    <!-- 黑名單 -->
+    <div class="card mt-lg">
+      <div class="section-header">
+        <h3 class="section-title">黑名單（不參與抽獎）</h3>
+        <button class="btn btn-sm btn-secondary" id="applyBlacklistBtn">套用黑名單</button>
+      </div>
+      <textarea class="form-textarea" id="blacklistInput" placeholder="請輸入黑名單，每行一人..."></textarea>
+    </div>
+
+    <!-- 已抽出名單 -->
+    <div class="card mt-lg">
+      <div class="section-header">
+        <h3 class="section-title">已抽出名單</h3>
+        <button class="btn btn-sm btn-secondary" id="clearDrawnBtn">清除已抽</button>
+      </div>
+      <div class="drawn-list" id="drawnList">
+        <p class="empty-text">尚無已抽人員</p>
+      </div>
+    </div>
+
+    <!-- 操作紀錄 -->
+    <div class="logs-section">
+      <div class="logs-header">
+        <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
+        <span class="badge" id="logsCount">0 筆</span>
+      </div>
+      <div class="collapse-content" id="logsContent">
+        <div class="logs-list" id="logsList"></div>
+      </div>
+    </div>
+
+    <!-- 資料管理 -->
+    <div class="data-actions">
+      <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
+      <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
+      <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+    </div>
+  </div>
+
+  <!-- 匯入 Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>匯入 JSON</h3>
+        <button class="modal-close" id="closeImportModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">選擇檔案</label>
+          <input type="file" accept=".json" id="importFile" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">或貼上 JSON</label>
+          <textarea class="form-textarea" id="importText" placeholder='{"version": "LUCKY_PICKER_V1", ...}'></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelImport">取消</button>
+        <button class="btn btn-primary" id="confirmImport">確認匯入</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

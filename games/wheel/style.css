@@ -1,0 +1,90 @@
+/* ========================================
+   Wheel Game - 輪盤抽獎樣式
+   使用 Canvas 繪製輪盤
+   ======================================== */
+
+/* 輪盤容器 */
+.wheel-container {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) 0;
+}
+
+.wheel-wrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+/* 指針 */
+.wheel-pointer {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid var(--danger);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+}
+
+/* Canvas 輪盤 */
+#wheelCanvas {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+/* 操作按鈕 */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-lg) 0;
+}
+
+/* 已抽出列表 */
+.drawn-list {
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.drawn-item {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--gray-200);
+  border-radius: var(--radius-sm);
+  margin: 4px;
+  font-size: 0.9rem;
+}
+
+/* Toggle label */
+.toggle-label {
+  font-weight: 500;
+  margin-right: var(--space-sm);
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  .wheel-wrapper {
+    width: 280px;
+    height: 280px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+}
