@@ -386,6 +386,33 @@ const LuckyUtils = (function() {
     return el;
   }
 
+  // ========== 設定面板折疊 ==========
+
+  /**
+   * 初始化設定面板折疊功能
+   * 自動綁定 #settingsToggle 和 #settingsContent 的展開/收合
+   */
+  function initSettingsPanel() {
+    const toggleBtn = document.getElementById('settingsToggle');
+    const content = document.getElementById('settingsContent');
+
+    if (toggleBtn && content) {
+      toggleBtn.addEventListener('click', function() {
+        toggleBtn.classList.toggle('expanded');
+        content.classList.toggle('expanded');
+      });
+    }
+  }
+
+  // 頁面載入時自動初始化
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSettingsPanel);
+    } else {
+      initSettingsPanel();
+    }
+  }
+
   // ========== 公開 API ==========
 
   return {

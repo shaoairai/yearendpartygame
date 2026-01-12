@@ -82,34 +82,40 @@
       <button class="btn btn-primary btn-lg" id="gachaBtn">扭一顆</button>
     </div>
 
-    <!-- 顏色設定 -->
-    <div class="card mt-lg">
-      <div class="section-header">
-        <h3 class="section-title">顏色與獎項設定</h3>
-        <button class="btn btn-sm btn-success" id="addColorBtn">新增顏色</button>
-      </div>
-      <div class="color-settings" id="colorSettings">
-        <!-- 動態產生 -->
-      </div>
-      <button class="btn btn-primary mt-md" id="applySettingsBtn">套用設定</button>
-    </div>
+    <!-- 設定面板（預設隱藏） -->
+    <div class="settings-panel">
+      <button class="settings-toggle-btn" id="settingsToggle">設定與管理</button>
+      <div class="settings-content" id="settingsContent">
+        <!-- 顏色設定 -->
+        <div class="card mt-lg">
+          <div class="section-header">
+            <h3 class="section-title">顏色與獎項設定</h3>
+            <button class="btn btn-sm btn-success" id="addColorBtn">新增顏色</button>
+          </div>
+          <div class="color-settings" id="colorSettings">
+            <!-- 動態產生 -->
+          </div>
+          <button class="btn btn-primary mt-md" id="applySettingsBtn">套用設定</button>
+        </div>
 
-    <!-- 操作紀錄 -->
-    <div class="logs-section">
-      <div class="logs-header">
-        <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
-        <span class="badge" id="logsCount">0 筆</span>
-      </div>
-      <div class="collapse-content" id="logsContent">
-        <div class="logs-list" id="logsList"></div>
-      </div>
-    </div>
+        <!-- 操作紀錄 -->
+        <div class="logs-section">
+          <div class="logs-header">
+            <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
+            <span class="badge" id="logsCount">0 筆</span>
+          </div>
+          <div class="collapse-content" id="logsContent">
+            <div class="logs-list" id="logsList"></div>
+          </div>
+        </div>
 
-    <!-- 資料管理 -->
-    <div class="data-actions">
-      <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
-      <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
-      <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+        <!-- 資料管理 -->
+        <div class="data-actions">
+          <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
+          <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
+          <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+        </div>
+      </div>
     </div>
   </div>
 

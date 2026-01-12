@@ -1,291 +1,300 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>尾牙抽獎遊戲</title>
-  <link rel="stylesheet" href="assets/css/global.css">
-  <style>
-    .hero {
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-    .hero p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-    }
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .game-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      padding: 32px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      display: block;
-    }
-    .game-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-    }
-    .game-card:active {
-      transform: translateY(0);
-    }
-    .game-icon {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 20px;
-      position: relative;
-    }
-    .game-card h2 {
-      font-size: 1.4rem;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-    .game-card p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>尾牙抽獎遊戲</title>
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <style>
+      .hero {
+        text-align: center;
+        padding: 60px 20px 40px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+      }
+      .hero p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+      }
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .game-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 32px 24px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-decoration: none;
+        display: block;
+      }
+      .game-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+      .game-card:active {
+        transform: translateY(0);
+      }
+      .game-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+      .game-card h2 {
+        font-size: 1.4rem;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+      .game-card p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
 
-    /* 輪盤圖示 */
-    .icon-wheel {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 6px solid var(--primary);
-      position: relative;
-      margin: 10px auto;
-    }
-    .icon-wheel::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 60%;
-      height: 4px;
-      background: var(--primary);
-      transform-origin: left center;
-      transform: translate(0, -50%) rotate(-30deg);
-    }
-    .icon-wheel::after {
-      content: '';
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 14px solid var(--danger);
-    }
+      /* 輪盤圖示 */
+      .icon-wheel {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 6px solid var(--primary);
+        position: relative;
+        margin: 10px auto;
+      }
+      .icon-wheel::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 60%;
+        height: 4px;
+        background: var(--primary);
+        transform-origin: left center;
+        transform: translate(0, -50%) rotate(-30deg);
+      }
+      .icon-wheel::after {
+        content: "";
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 14px solid var(--danger);
+      }
 
-    /* 籤筒圖示 */
-    .icon-picker {
-      width: 50px;
-      height: 70px;
-      background: var(--warning);
-      border-radius: 0 0 12px 12px;
-      position: relative;
-      margin: 15px auto;
-    }
-    .icon-picker::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 20px;
-      background: var(--warning-dark);
-      border-radius: 6px 6px 0 0;
-    }
-    .icon-picker-stick {
-      position: absolute;
-      width: 4px;
-      height: 40px;
-      background: #d4a574;
-      border-radius: 2px;
-      top: -30px;
-    }
-    .icon-picker-stick:nth-child(1) { left: 12px; transform: rotate(-10deg); }
-    .icon-picker-stick:nth-child(2) { left: 23px; transform: rotate(5deg); }
-    .icon-picker-stick:nth-child(3) { left: 34px; transform: rotate(-5deg); }
+      /* 籤筒圖示 */
+      .icon-picker {
+        width: 50px;
+        height: 70px;
+        background: var(--warning);
+        border-radius: 0 0 12px 12px;
+        position: relative;
+        margin: 15px auto;
+      }
+      .icon-picker::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 20px;
+        background: var(--warning-dark);
+        border-radius: 6px 6px 0 0;
+      }
+      .icon-picker-stick {
+        position: absolute;
+        width: 4px;
+        height: 40px;
+        background: #d4a574;
+        border-radius: 2px;
+        top: -30px;
+      }
+      .icon-picker-stick:nth-child(1) {
+        left: 12px;
+        transform: rotate(-10deg);
+      }
+      .icon-picker-stick:nth-child(2) {
+        left: 23px;
+        transform: rotate(5deg);
+      }
+      .icon-picker-stick:nth-child(3) {
+        left: 34px;
+        transform: rotate(-5deg);
+      }
 
-    /* 扭蛋圖示 */
-    .icon-gacha {
-      width: 70px;
-      height: 90px;
-      position: relative;
-      margin: 5px auto;
-    }
-    .icon-gacha-top {
-      width: 70px;
-      height: 35px;
-      background: var(--danger);
-      border-radius: 35px 35px 0 0;
-    }
-    .icon-gacha-bottom {
-      width: 70px;
-      height: 45px;
-      background: var(--text-tertiary);
-      border-radius: 0 0 20px 20px;
-      position: relative;
-    }
-    .icon-gacha-ball {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--success);
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+      /* 扭蛋圖示 */
+      .icon-gacha {
+        width: 70px;
+        height: 90px;
+        position: relative;
+        margin: 5px auto;
+      }
+      .icon-gacha-top {
+        width: 70px;
+        height: 35px;
+        background: var(--danger);
+        border-radius: 35px 35px 0 0;
+      }
+      .icon-gacha-bottom {
+        width: 70px;
+        height: 45px;
+        background: var(--text-tertiary);
+        border-radius: 0 0 20px 20px;
+        position: relative;
+      }
+      .icon-gacha-ball {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--success);
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
-    /* 拉霸圖示 */
-    .icon-slot {
-      width: 80px;
-      height: 60px;
-      background: var(--primary);
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 4px;
-      margin: 20px auto;
-    }
-    .icon-slot-reel {
-      width: 18px;
-      height: 40px;
-      background: white;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
+      /* 拉霸圖示 */
+      .icon-slot {
+        width: 80px;
+        height: 60px;
+        background: var(--primary);
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        margin: 20px auto;
+      }
+      .icon-slot-reel {
+        width: 18px;
+        height: 40px;
+        background: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
 
-    /* 刮刮樂圖示 */
-    .icon-scratch {
-      width: 80px;
-      height: 50px;
-      background: var(--text-tertiary);
-      border-radius: 6px;
-      position: relative;
-      margin: 25px auto;
-      overflow: hidden;
-    }
-    .icon-scratch::before {
-      content: '$';
-      position: absolute;
-      font-size: 24px;
-      font-weight: bold;
-      color: var(--success);
-      top: 50%;
-      left: 30%;
-      transform: translate(-50%, -50%);
-    }
-    .icon-scratch::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 50%;
-      height: 100%;
-      background: var(--warning);
-      clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
-    }
+      /* 刮刮樂圖示 */
+      .icon-scratch {
+        width: 80px;
+        height: 50px;
+        background: var(--text-tertiary);
+        border-radius: 6px;
+        position: relative;
+        margin: 25px auto;
+        overflow: hidden;
+      }
+      .icon-scratch::before {
+        content: "$";
+        position: absolute;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--success);
+        top: 50%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+      }
+      .icon-scratch::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: var(--warning);
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+      }
 
-    .footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-tertiary);
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-  <div class="hero">
-    <h1>尾牙抽獎遊戲</h1>
-    <p>選擇一個遊戲開始抽獎吧！</p>
-  </div>
+      .footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-tertiary);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero">
+      <h1>尾牙抽獎遊戲</h1>
+      <p>選擇一個遊戲開始抽獎吧！</p>
+    </div>
 
-  <div class="games-grid">
-    <!-- 輪盤抽獎 -->
-    <a href="games/wheel/index.html" class="game-card">
-      <div class="game-icon">
-        <div class="icon-wheel"></div>
-      </div>
-      <h2>輪盤抽獎</h2>
-      <p>經典轉盤抽獎，可抽人或抽獎品</p>
-    </a>
-
-    <!-- 抽籤筒 -->
-    <a href="games/picker/index.html" class="game-card">
-      <div class="game-icon">
-        <div class="icon-picker">
-          <div class="icon-picker-stick"></div>
-          <div class="icon-picker-stick"></div>
-          <div class="icon-picker-stick"></div>
+    <div class="games-grid">
+      <!-- 輪盤抽獎 -->
+      <a href="games/wheel/index.html" class="game-card">
+        <div class="game-icon">
+          <div class="icon-wheel"></div>
         </div>
-      </div>
-      <h2>抽籤筒</h2>
-      <p>隨機點名抽獎，支援黑名單排除</p>
-    </a>
+        <h2>輪盤抽獎</h2>
+        <p>經典轉盤抽獎，可抽人或抽獎品</p>
+      </a>
 
-    <!-- 扭蛋 -->
-    <a href="games/gacha/index.html" class="game-card">
-      <div class="game-icon">
-        <div class="icon-gacha">
-          <div class="icon-gacha-top"></div>
-          <div class="icon-gacha-bottom">
-            <div class="icon-gacha-ball"></div>
+      <!-- 抽籤筒 -->
+      <a href="games/picker/index.html" class="game-card">
+        <div class="game-icon">
+          <div class="icon-picker">
+            <div class="icon-picker-stick"></div>
+            <div class="icon-picker-stick"></div>
+            <div class="icon-picker-stick"></div>
           </div>
         </div>
-      </div>
-      <h2>扭蛋機</h2>
-      <p>多色膠囊球，顏色代表不同獎項</p>
-    </a>
+        <h2>抽籤筒</h2>
+        <p>隨機點名抽獎，支援黑名單排除</p>
+      </a>
 
-    <!-- 拉霸機 -->
-    <a href="games/slot/index.html" class="game-card">
-      <div class="game-icon">
-        <div class="icon-slot">
-          <div class="icon-slot-reel">7</div>
-          <div class="icon-slot-reel">7</div>
-          <div class="icon-slot-reel">7</div>
+      <!-- 扭蛋 -->
+      <a href="games/gacha/index.html" class="game-card">
+        <div class="game-icon">
+          <div class="icon-gacha">
+            <div class="icon-gacha-top"></div>
+            <div class="icon-gacha-bottom">
+              <div class="icon-gacha-ball"></div>
+            </div>
+          </div>
         </div>
-      </div>
-      <h2>拉霸機</h2>
-      <p>經典三輪拉霸，支援獎池與機率模式</p>
-    </a>
+        <h2>扭蛋機</h2>
+        <p>多色膠囊球，顏色代表不同獎項</p>
+      </a>
 
-    <!-- 刮刮樂 -->
-    <a href="games/scratch/index.html" class="game-card">
-      <div class="game-icon">
-        <div class="icon-scratch"></div>
-      </div>
-      <h2>刮刮樂</h2>
-      <p>刮開遮罩揭曉獎項，刺激有趣</p>
-    </a>
-  </div>
+      <!-- 拉霸機 -->
+      <a href="games/slot/index.html" class="game-card">
+        <div class="game-icon">
+          <div class="icon-slot">
+            <div class="icon-slot-reel">7</div>
+            <div class="icon-slot-reel">7</div>
+            <div class="icon-slot-reel">7</div>
+          </div>
+        </div>
+        <h2>拉霸機</h2>
+        <p>經典三輪拉霸，支援獎池與機率模式</p>
+      </a>
 
-  <div class="footer">
-    <p>純前端遊戲，資料儲存於瀏覽器 localStorage</p>
-  </div>
-</body>
+      <!-- 刮刮樂 -->
+      <a href="games/scratch/index.html" class="game-card">
+        <div class="game-icon">
+          <div class="icon-scratch"></div>
+        </div>
+        <h2>刮刮樂</h2>
+        <p>刮開遮罩揭曉獎項，刺激有趣</p>
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>資料皆儲存於您的瀏覽器</p>
+    </div>
+  </body>
 </html>

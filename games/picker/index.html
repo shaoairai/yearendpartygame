@@ -65,51 +65,57 @@
       <button class="btn btn-warning" id="undoBtn" disabled>復原上一次</button>
     </div>
 
-    <!-- 名單編輯 -->
-    <div class="card mt-lg">
-      <div class="section-header">
-        <h3 class="section-title">名單編輯（每行一人）</h3>
-        <button class="btn btn-sm btn-secondary" id="applyListBtn">套用名單</button>
-      </div>
-      <textarea class="form-textarea" id="listInput" placeholder="請輸入名單，每行一人..."></textarea>
-    </div>
+    <!-- 設定面板（預設隱藏） -->
+    <div class="settings-panel">
+      <button class="settings-toggle-btn" id="settingsToggle">設定與管理</button>
+      <div class="settings-content" id="settingsContent">
+        <!-- 名單編輯 -->
+        <div class="card mt-lg">
+          <div class="section-header">
+            <h3 class="section-title">名單編輯（每行一人）</h3>
+            <button class="btn btn-sm btn-secondary" id="applyListBtn">套用名單</button>
+          </div>
+          <textarea class="form-textarea" id="listInput" placeholder="請輸入名單，每行一人..."></textarea>
+        </div>
 
-    <!-- 黑名單 -->
-    <div class="card mt-lg">
-      <div class="section-header">
-        <h3 class="section-title">黑名單（不參與抽獎）</h3>
-        <button class="btn btn-sm btn-secondary" id="applyBlacklistBtn">套用黑名單</button>
-      </div>
-      <textarea class="form-textarea" id="blacklistInput" placeholder="請輸入黑名單，每行一人..."></textarea>
-    </div>
+        <!-- 黑名單 -->
+        <div class="card mt-lg">
+          <div class="section-header">
+            <h3 class="section-title">黑名單（不參與抽獎）</h3>
+            <button class="btn btn-sm btn-secondary" id="applyBlacklistBtn">套用黑名單</button>
+          </div>
+          <textarea class="form-textarea" id="blacklistInput" placeholder="請輸入黑名單，每行一人..."></textarea>
+        </div>
 
-    <!-- 已抽出名單 -->
-    <div class="card mt-lg">
-      <div class="section-header">
-        <h3 class="section-title">已抽出名單</h3>
-        <button class="btn btn-sm btn-secondary" id="clearDrawnBtn">清除已抽</button>
-      </div>
-      <div class="drawn-list" id="drawnList">
-        <p class="empty-text">尚無已抽人員</p>
-      </div>
-    </div>
+        <!-- 已抽出名單 -->
+        <div class="card mt-lg">
+          <div class="section-header">
+            <h3 class="section-title">已抽出名單</h3>
+            <button class="btn btn-sm btn-secondary" id="clearDrawnBtn">清除已抽</button>
+          </div>
+          <div class="drawn-list" id="drawnList">
+            <p class="empty-text">尚無已抽人員</p>
+          </div>
+        </div>
 
-    <!-- 操作紀錄 -->
-    <div class="logs-section">
-      <div class="logs-header">
-        <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
-        <span class="badge" id="logsCount">0 筆</span>
-      </div>
-      <div class="collapse-content" id="logsContent">
-        <div class="logs-list" id="logsList"></div>
-      </div>
-    </div>
+        <!-- 操作紀錄 -->
+        <div class="logs-section">
+          <div class="logs-header">
+            <h3 class="section-title collapse-toggle" id="logsToggle">操作紀錄</h3>
+            <span class="badge" id="logsCount">0 筆</span>
+          </div>
+          <div class="collapse-content" id="logsContent">
+            <div class="logs-list" id="logsList"></div>
+          </div>
+        </div>
 
-    <!-- 資料管理 -->
-    <div class="data-actions">
-      <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
-      <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
-      <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+        <!-- 資料管理 -->
+        <div class="data-actions">
+          <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
+          <button class="btn btn-secondary" id="importBtn">匯入 JSON</button>
+          <button class="btn btn-danger" id="resetBtn">重置遊戲</button>
+        </div>
+      </div>
     </div>
   </div>
 
